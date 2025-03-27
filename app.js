@@ -1,19 +1,20 @@
 import express from "express";
 import mongoose from "mongoose";
-// import dotenv from "dotenv";
+import dotenv from "dotenv";
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/users.js";
 import postRoute from "./routes/posts.js";
 import categoryRoute from "./routes/categories.js";
-// import multer from "multer";
+import multer from "multer";
+import cors from "cors";
 // import path from "path";
 
 const PORT = 3000;
 
 const app = express();
+app.use(cors());
 
-// ????
-// dotenv.config();
+dotenv.config();
 app.use(express.json());
 // app.use(
 //   "/images",
@@ -22,30 +23,30 @@ app.use(express.json());
 
 // подключение к БД
 mongoose
-  .connect("mongodb://localhost:27017/blog-app")
+  .connect(process.env.MONGO_URL_ATLAS)
   .then(console.log("Connected to MongoDB"))
   .catch((error) =>
     console.error("MongoDB connection error:", error),
   );
 
-// ????
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "images");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, req.body.name);
-//   },
-// });
+// загрузка файлов
+const storage = multer.diskStorage({
+  destination: (req, file, callback) => {
+    callback(null, "images");
+  },
+  filename: (req, file, callback) => {
+    callback(null, "hello.jpg");
+  },
+});
 
-// const upload = multer({ storage: storage });
-// app.post(
-//   "api/upload",
-//   upload.single("file"),
-//   (req, res) => {
-//     res.status(200).json("File has been uploaded");
-//   },
-// );
+const upload = multer({ storage: storage });
+app.post(
+  "/api/upload",
+  upload.single("file"),
+  (req, res) => {
+    res.status(200).json("File has been uploaded");
+  },
+);
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);

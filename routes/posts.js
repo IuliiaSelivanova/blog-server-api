@@ -10,10 +10,10 @@ const router = express.Router();
 router.post("/", createPost);
 
 // изменение поста
-router.post("/:id", updatePost);
+router.put("/:id", updatePost);
 
 // удаление поста
-router.post("/:id", deletePost);
+router.delete("/:id", deletePost);
 
 // получение поста по id
 router.get("/:id", getPost);

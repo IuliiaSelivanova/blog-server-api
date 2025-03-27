@@ -13,7 +13,6 @@ export default async function updateUser(req, res) {
     }
 
     try {
-      console.log(req.params.id);
       // ищем в БД юзера с id и обновляем данные
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -28,8 +27,6 @@ export default async function updateUser(req, res) {
       res.status(500).json(error);
     }
   } else {
-    console.log(req.body.userId);
-    console.log(req.params.id);
     res
       .status(401)
       .json(

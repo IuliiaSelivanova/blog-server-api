@@ -2,7 +2,7 @@ import User from "../../models/User.js";
 import Post from "../../models/Post.js";
 
 export default async function deleteUser(req, res) {
-  if (req.body.id === req.params.id) {
+  if (req.body.userId === req.params.id) {
     try {
       // находим в БД пользователя по id
       const user = await User.findById(req.params.id);

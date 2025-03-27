@@ -8,7 +8,8 @@ export default async function deletePost(req, res) {
     // прверяем на соответствие автору поста
     if (post.username === req.body.username) {
       try {
-        await post.delete();
+        await post.deleteOne();
+
         res.status(200).json("Пост удален");
       } catch (error) {
         res.status(500).json(error);
