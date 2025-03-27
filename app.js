@@ -7,19 +7,20 @@ import postRoute from "./routes/posts.js";
 import categoryRoute from "./routes/categories.js";
 import multer from "multer";
 import cors from "cors";
-// import path from "path";
+import path from "path";
 
 const PORT = 3000;
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 
 dotenv.config();
 app.use(express.json());
-// app.use(
-//   "/images",
-//   express.static(path.join(__dirname, "/images")),
-// );
+app.use("/images", express.static(path.join("./images")));
 
 // подключение к БД
 mongoose
@@ -35,7 +36,7 @@ const storage = multer.diskStorage({
     callback(null, "images");
   },
   filename: (req, file, callback) => {
-    callback(null, "hello.jpg");
+    callback(null, req.body.name);
   },
 });
 
