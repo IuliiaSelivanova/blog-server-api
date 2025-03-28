@@ -1,6 +1,5 @@
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/users.js";
 import postRoute from "./routes/posts.js";
@@ -18,13 +17,12 @@ app.use(
   }),
 );
 
-dotenv.config();
 app.use(express.json());
 app.use("/images", express.static(path.join("./images")));
 
 // подключение к БД
 mongoose
-  .connect(process.env.MONGO_URL_ATLAS)
+  .connect("mongodb://localhost:27017/blog-app")
   .then(console.log("Connected to MongoDB"))
   .catch((error) =>
     console.error("MongoDB connection error:", error),
