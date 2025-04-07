@@ -11,11 +11,7 @@ import path from "path";
 const PORT = 3000;
 
 const app = express();
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-  }),
-);
+app.use(cors());
 
 app.use(express.json());
 app.use("/images", express.static(path.join("./images")));
